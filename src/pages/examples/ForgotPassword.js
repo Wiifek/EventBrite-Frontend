@@ -1,14 +1,27 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import { Col, Row, Form, Card, Button, Container, InputGroup } from '@themesberg/react-bootstrap';
 import { Link } from 'react-router-dom';
+import authService from "../../services/auth.service";
 
 import { Routes } from "../../routes";
 
 
 export default () => {
+  const [email, setEmail] = useState("")
+
+  const submitHandler=(e)=>{
+    e.preventDefault();
+    authService.forgotPassword({email})
+    .then(response=>{
+
+    }).catch(err=>{
+      console.log(err)
+    });
+  }
+
   return (
     <main>
       <section className="vh-lg-100 mt-4 mt-lg-0 bg-soft d-flex align-items-center">
@@ -23,14 +36,14 @@ export default () => {
               <div className="signin-inner my-3 my-lg-0 bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-500">
                 <h3>Forgot your password?</h3>
                 <p className="mb-4">Don't fret! Just type in your email and we will send you a code to reset your password!</p>
-                <Form>
+                <Form onSubmit={submitHandler}>
                   <div className="mb-4">
                     <Form.Label htmlFor="email">Your Email</Form.Label>
                     <InputGroup id="email">
-                      <Form.Control required autoFocus type="email" placeholder="john@company.com" />
+                      <Form.Control required autoFocus value={email} onChange={e => setEmail(e.target.value)} type="email" placeholder="john@company.com" />
                     </InputGroup>
                   </div>
-                  <Button variant="primary" type="submit" className="w-100">
+                  <Button variant="primary" type="submit" className="w-100" >
                     Recover password
                   </Button>
                 </Form>
