@@ -12,7 +12,7 @@ const getAllTickets = ()=>{
 
 const deleteTicketById = (id)=>{
     return axios({
-        method: 'get',
+        method: 'delete',
         url: `${BASE_URL}/tickets/deleteticket/${id}`,
         headers: authHeader()
       });
