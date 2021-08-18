@@ -27,6 +27,10 @@ import "react-datetime/css/react-datetime.css";
 import HomePage from "./pages/HomePage";
 import ScrollToTop from "./components/ScrollToTop";
 
+//Interceptors
+import requestInterceptor from './interceptors/requestInterceptor';
+import responseInterceptor from './interceptors/responseInterceptor';
+
 //toastr
 import { ToastContainer } from "react-toastr";
 import "toastr/build/toastr.css";

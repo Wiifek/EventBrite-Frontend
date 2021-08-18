@@ -1,52 +1,45 @@
 import axios from "axios";
-import authHeader from "./auth_header";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const getAllUsers = ()=>{
     return axios({
         method: 'get',
-        url: `${BASE_URL}/users/`,
-        headers: authHeader()
+        url: `${BASE_URL}/users/`
       });
 }
 
 const getUserById = (id)=>{
     return axios({
         method: 'get',
-        url: `${BASE_URL}/users/${id}`,
-        headers: authHeader()
+        url: `${BASE_URL}/users/${id}`
       });
 }
 
 const editUser = (id)=>{
     return axios({
         method: 'put',
-        url: `${BASE_URL}/users/edituser/${id}`,
-        headers: authHeader()
+        url: `${BASE_URL}/users/edituser/${id}`
       });
 }
 
 const deleteUserById = (id)=>{
     return axios({
         method: 'delete',
-        url: `${BASE_URL}/users/deleteuser/${id}`,
-        headers: authHeader()
+        url: `${BASE_URL}/users/deleteuser/${id}`
       });
 }
 
 const getUserTickets = (id)=>{
     return axios({
         method: 'get',
-        url: `${BASE_URL}/users/showtickets/${id}`,
-        headers: authHeader()
+        url: `${BASE_URL}/users/showtickets/${id}`
       });
 }
 
 const cancelUserTicket = (id, ticketId)=>{
     return axios({
         method: 'delete',
-        url: `${BASE_URL}/users/cancelticket/${id}/${ticketId}`,
-        headers: authHeader()
+        url: `${BASE_URL}/users/cancelticket/${id}/${ticketId}`
       });
 }
 

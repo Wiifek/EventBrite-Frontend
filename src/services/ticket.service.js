@@ -1,20 +1,17 @@
 import axios from "axios";
-import authHeader from "./auth_header";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const getAllTickets = ()=>{
     return axios({
         method: 'get',
-        url: `${BASE_URL}/tickets/`,
-        headers: authHeader()
+        url: `${BASE_URL}/tickets/`
       });
 }
 
 const deleteTicketById = (id)=>{
     return axios({
         method: 'delete',
-        url: `${BASE_URL}/tickets/deleteticket/${id}`,
-        headers: authHeader()
+        url: `${BASE_URL}/tickets/deleteticket/${id}`
       });
 }
 
