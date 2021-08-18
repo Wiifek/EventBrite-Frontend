@@ -10,10 +10,8 @@ import authService from "../../services/auth.service";
 import { Routes } from "../../routes";
 import BgImage from "../../assets/img/illustrations/signin.svg";
 
-import { ToastContainer } from "react-toastr";
-import toasterService from "../../services/toaster.service";
-import "toastr/build/toastr.css";
-import "animate.css/animate.css";
+//Toastr
+import toastrService from "../../services/toastr.service";
 
 export default () => {
   let history = useHistory();
@@ -21,8 +19,6 @@ export default () => {
   const [password, setPassword] = useState('');
   const [emailRequired, setEmailRequired] = useState(null);
   const [passwordRequired, setPasswordRequired] = useState(null);
-
-  let container;
 
   const isValidForm =()=>{
     if (!email){
@@ -48,11 +44,11 @@ export default () => {
     if (isValidForm()){
     authService.login({ email, password })
       .then(response => {
-        toasterService.showSuccessMessage(container, "Welcome to your access panel", `Sign in successful`)
+        toastrService.showSuccessMessage("Welcome to your access panel", `Sign in successful`)
         localStorage.setItem('token', response.data.token);
         // history.push("/dashboard/overview")
       }).catch(err => {
-        toasterService.showErrorMessage(container, "You have entered an invalid username or password", `Sign in failed`)
+        toastrService.showErrorMessage("You have entered an invalid username or password", `Sign in failed`)
         console.log(err)
       });
     }
@@ -61,12 +57,6 @@ export default () => {
     <main>
       <section className="d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
         <Container>
-        <ToastContainer
-          className="toast-top-right"
-          ref={ref => {
-            container = ref;
-          }}
-        />
           <Row className="justify-content-center form-bg-image" style={{ backgroundImage: `url(${BgImage})` }}>
             <Col xs={12} className="d-flex align-items-center justify-content-center">
               <div className="bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-500">

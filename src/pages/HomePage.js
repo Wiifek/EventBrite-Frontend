@@ -48,6 +48,7 @@ import Tables from "./components/Tables";
 import Tabs from "./components/Tabs";
 import Tooltips from "./components/Tooltips";
 import Toasts from "./components/Toasts";
+import ListUsers from '../components/ListUsers';
 
 const RouteWithLoader = ({ component: Component, ...rest }) => {
   const [loaded, setLoaded] = useState(false);
@@ -142,6 +143,9 @@ export default () => (
     <RouteWithSidebar exact path={Routes.DocsFolderStructure.path} component={DocsFolderStructure} />
     <RouteWithSidebar exact path={Routes.DocsBuild.path} component={DocsBuild} />
     <RouteWithSidebar exact path={Routes.DocsChangelog.path} component={DocsChangelog} />
+
+    {/*My Component*/}
+    <RouteWithSidebar exact path={Routes.ListUsers.path} component={ListUsers} />
 
     <Redirect to={Routes.NotFound.path} />
   </Switch>

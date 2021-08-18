@@ -32,7 +32,7 @@ export default () => {
     else{
       setPasswordConfirmationRequired(null)
     }
-    if(password && passwordConfirmation && password == passwordConfirmation){
+    if(password && passwordConfirmation && password === passwordConfirmation){
       return true
     }
     else return false

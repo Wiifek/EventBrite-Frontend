@@ -1,5 +1,6 @@
 
-const showSuccessMessage =(container, message, title)=>{
+import container from "../index"
+const showSuccessMessage =(message, title)=>{
     container.success(message, title, {
         closeButton: true,
         showAnimation: "animated slideInRight",
@@ -7,7 +8,7 @@ const showSuccessMessage =(container, message, title)=>{
     });     
 }
 
-const showErrorMessage =(container, message, title)=>{
+const showErrorMessage =(message, title)=>{
     container.error(message, title, {
         closeButton: true,
         showAnimation: "animated slideInRight",
