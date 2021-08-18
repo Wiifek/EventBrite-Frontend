@@ -11,15 +11,29 @@ import { Routes } from "../../routes";
 
 export default () => {
   const [email, setEmail] = useState("")
+  const [emailRequired, setEmailRequired] = useState(null);
+
+  const isValidForm =()=>{
+    if (!email){
+      setEmailRequired('Email address is required.')
+      return false
+    }
+    else{
+      setEmailRequired(null)
+      return true
+    }
+  }
 
   const submitHandler=(e)=>{
     e.preventDefault();
+    if(isValidForm()){
     authService.forgotPassword({email})
     .then(response=>{
 
     }).catch(err=>{
       console.log(err)
     });
+  }
   }
 
   return (
@@ -40,7 +54,8 @@ export default () => {
                   <div className="mb-4">
                     <Form.Label htmlFor="email">Your Email</Form.Label>
                     <InputGroup id="email">
-                      <Form.Control required autoFocus value={email} onChange={e => setEmail(e.target.value)} type="email" placeholder="john@company.com" />
+                      <Form.Control autoFocus value={email} onChange={e => setEmail(e.target.value)} type="email" placeholder="john@company.com" />
+                      <div className="text-start w-100 d-block invalid-feedback">{emailRequired}</div>
                     </InputGroup>
                   </div>
                   <Button variant="primary" type="submit" className="w-100" >

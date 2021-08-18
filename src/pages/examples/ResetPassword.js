@@ -12,15 +12,42 @@ import { Routes } from "../../routes";
 export default () => {
   const { token } = useParams();
   const [password, setPassword] = useState("")
+  const [passwordConfirmation, setPasswordConfirmation] = useState("")
+  const [passwordRequired, setPasswordRequired] = useState(null);
+  const [passwordConfirmationRequired, setPasswordConfirmationRequired] = useState(null);
+
+  const isValidForm =()=>{
+    if (!password){
+      setPasswordRequired('Password is required.')
+    }
+    else{
+      setPasswordRequired(null)
+    }
+    if (!passwordConfirmation){
+      setPasswordConfirmationRequired('Password confirmation is required.')
+    }
+    else if (password !== passwordConfirmation){
+      setPasswordConfirmationRequired("Passwords does not match!")
+    }
+    else{
+      setPasswordConfirmationRequired(null)
+    }
+    if(password && passwordConfirmation && password == passwordConfirmation){
+      return true
+    }
+    else return false
+  }
 
   const submitHandler = (e) => {
     e.preventDefault();
+    if(isValidForm()){
     authService.resetPassword({password}, token)
     .then(response => {
       
     }).catch(err => {
       console.log(err)
     });
+  }
   }
   return (
     <main>
@@ -42,7 +69,8 @@ export default () => {
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faUnlockAlt} />
                       </InputGroup.Text>
-                      <Form.Control required type="password" placeholder="Password" />
+                      <Form.Control  value={password} onChange={e => setPassword(e.target.value)} type="password" placeholder="Password" />
+                      <div className="text-start w-100 d-block invalid-feedback">{passwordRequired}</div>
                     </InputGroup>
                   </Form.Group>
                   <Form.Group id="confirmPassword" className="mb-4">
@@ -51,7 +79,8 @@ export default () => {
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faUnlockAlt} />
                       </InputGroup.Text>
-                      <Form.Control required value={password} onChange={e => setPassword(e.target.value)} type="password" placeholder="Confirm Password" />
+                      <Form.Control  value={passwordConfirmation} onChange={e => setPasswordConfirmation(e.target.value)} type="password" placeholder="Confirm Password" />
+                      <div className="text-start w-100 d-block invalid-feedback">{passwordConfirmationRequired}</div>
                     </InputGroup>
                   </Form.Group>
                   <Button variant="primary" type="submit" className="w-100">
