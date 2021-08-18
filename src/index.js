@@ -27,8 +27,22 @@ import "react-datetime/css/react-datetime.css";
 import HomePage from "./pages/HomePage";
 import ScrollToTop from "./components/ScrollToTop";
 
+//toastr
+import { ToastContainer } from "react-toastr";
+import "toastr/build/toastr.css";
+import "animate.css/animate.css";
+
+let container;
+export default container;
+
 ReactDOM.render(
   <HashRouter>
+    <ToastContainer
+      className="toast-top-right"
+      ref={ref => {
+        container = ref;
+      }}
+    />
     <ScrollToTop />
     <HomePage />
   </HashRouter>,

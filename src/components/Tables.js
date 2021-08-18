@@ -84,6 +84,10 @@ export const PageTrafficTable = () => {
         console.log(err)
       });
   })
+
+  const deleteHandler=(id)=>{
+    console.log(id)
+  }
   return (
     <Card border="light" className="shadow-sm mb-4">
       <Card.Body className="pb-0">
@@ -109,7 +113,7 @@ export const PageTrafficTable = () => {
                 <td>{user.email}</td>
                 <td>{user.phone}</td>
                 <td><Button variant="warning">Edit</Button>{' '}
-                  <Button variant="danger">Delete</Button>
+                  <Button onClick={deleteHandler(user._id)} variant="danger">Delete</Button>
                 </td>
 
               </tr>)}

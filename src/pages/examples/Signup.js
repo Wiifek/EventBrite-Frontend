@@ -1,39 +1,88 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faEnvelope, faUnlockAlt } from "@fortawesome/free-solid-svg-icons";
 import { faFacebookF, faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { Col, Row, Form, Card, Button, FormCheck, Container, InputGroup } from '@themesberg/react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { Routes } from "../../routes";
 import BgImage from "../../assets/img/illustrations/signin.svg";
+import authService from "../../services/auth.service";
+import toastrService from "../../services/toastr.service";
 
 
 export default () => {
+  let history = useHistory();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState("")
+  
+  const [emailRequired, setEmailRequired] = useState(null);
+  const [passwordRequired, setPasswordRequired] = useState(null);
+  const [passwordConfirmationRequired, setPasswordConfirmationRequired] = useState(null);
+
+  const isValidForm =()=>{
+    if (!email){
+      setEmailRequired('Email address is required.')
+    }
+    else{
+      setEmailRequired(null)
+    }
+    if (!password){
+      setPasswordRequired('Password is required.')
+    }
+    else{
+      setPasswordRequired(null)
+    }
+    if (!passwordConfirmation){
+      setPasswordConfirmationRequired('Password confirmation is required.')
+    }
+    else if (password !== passwordConfirmation){
+      setPasswordConfirmationRequired("Passwords does not match!")
+    }
+    else{
+      setPasswordConfirmationRequired(null)
+    }
+    if(email && password && passwordConfirmation && password === passwordConfirmation){
+      return true
+    }
+    else return false
+  }
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    if (isValidForm()){
+    authService.register({ email, password })
+      .then(response => {
+        toastrService.showSuccessMessage("Please sign in", `Sign up successfully`)
+        localStorage.setItem('token', response.data.token);
+        history.push("/sign-in")
+      }).catch(err => {
+        toastrService.showErrorMessage("Email already exists", `Sign up failed`)
+        console.log(err)
+      });
+    }
+  }
   return (
     <main>
       <section className="d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
         <Container>
-          <p className="text-center">
-            <Card.Link as={Link} to={Routes.DashboardOverview.path} className="text-gray-700">
-              <FontAwesomeIcon icon={faAngleLeft} className="me-2" /> Back to homepage
-            </Card.Link>
-          </p>
           <Row className="justify-content-center form-bg-image" style={{ backgroundImage: `url(${BgImage})` }}>
             <Col xs={12} className="d-flex align-items-center justify-content-center">
               <div className="mb-4 mb-lg-0 bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-500">
                 <div className="text-center text-md-center mb-4 mt-md-0">
                   <h3 className="mb-0">Create an account</h3>
                 </div>
-                <Form className="mt-4">
+                <Form className="mt-4" onSubmit={submitHandler}>
                   <Form.Group id="email" className="mb-4">
                     <Form.Label>Your Email</Form.Label>
                     <InputGroup>
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faEnvelope} />
                       </InputGroup.Text>
-                      <Form.Control autoFocus required type="email" placeholder="example@company.com" />
+                      <Form.Control autoFocus type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="example@company.com" />
+                      <div className="text-start w-100 d-block invalid-feedback">{emailRequired}</div>
                     </InputGroup>
                   </Form.Group>
                   <Form.Group id="password" className="mb-4">
@@ -42,7 +91,8 @@ export default () => {
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faUnlockAlt} />
                       </InputGroup.Text>
-                      <Form.Control required type="password" placeholder="Password" />
+                      <Form.Control type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
+                      <div className="text-start w-100 d-block invalid-feedback">{passwordRequired}</div>
                     </InputGroup>
                   </Form.Group>
                   <Form.Group id="confirmPassword" className="mb-4">
@@ -51,11 +101,12 @@ export default () => {
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faUnlockAlt} />
                       </InputGroup.Text>
-                      <Form.Control required type="password" placeholder="Confirm Password" />
+                      <Form.Control type="password" value={passwordConfirmation} onChange={e => setPasswordConfirmation(e.target.value)} placeholder="Confirm Password" />
+                      <div className="text-start w-100 d-block invalid-feedback">{passwordConfirmationRequired}</div>
                     </InputGroup>
                   </Form.Group>
                   <FormCheck type="checkbox" className="d-flex mb-4">
-                    <FormCheck.Input required id="terms" className="me-2" />
+                    <FormCheck.Input id="terms" className="me-2" />
                     <FormCheck.Label htmlFor="terms">
                       I agree to the <Card.Link>terms and conditions</Card.Link>
                     </FormCheck.Label>
