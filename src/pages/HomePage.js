@@ -49,6 +49,7 @@ import Tabs from "./components/Tabs";
 import Tooltips from "./components/Tooltips";
 import Toasts from "./components/Toasts";
 import ListUsers from '../components/ListUsers';
+import authService from '../services/auth.service';
 
 const RouteWithLoader = ({ component: Component, ...rest }) => {
   const [loaded, setLoaded] = useState(false);
@@ -83,7 +84,7 @@ const RouteWithSidebar = ({ component: Component, ...rest }) => {
   }
 
   return (
-    <Route {...rest} render={props => (
+    <Route {...rest} render={props => authService.isAuthentificated()?(
       <>
         <Preloader show={loaded ? false : true} />
         <Sidebar />
@@ -94,7 +95,7 @@ const RouteWithSidebar = ({ component: Component, ...rest }) => {
           <Footer toggleSettings={toggleSettings} showSettings={showSettings} />
         </main>
       </>
-    )}
+    ):(<Redirect to={{pathname: "/sign-in"}}/>)}
     />
   );
 };
