@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import authService from "../../services/auth.service";
 
 import { Routes } from "../../routes";
+import toastrService from "../../services/toastr.service";
 
 
 export default () => {
@@ -29,8 +30,9 @@ export default () => {
     if(isValidForm()){
     authService.forgotPassword({email})
     .then(response=>{
-
+      toastrService.showSuccessMessage("Please check your email and click on the provided link to reset your password", `Forgot password`)
     }).catch(err=>{
+      toastrService.showErrorMessage("No account found with that email address!", `Forgot password`)
       console.log(err)
     });
   }

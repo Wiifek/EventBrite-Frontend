@@ -1,8 +1,8 @@
 
 export const Routes = {
     // pages
-    Presentation: { path: "/" },
-    DashboardOverview: { path: "/dashboard/overview" },
+    // Presentation: { path: "/" },
+    DashboardOverview: { path: "/" },
     Transactions: { path: "/transactions" },
     Settings: { path: "/settings" },
     Upgrade: { path: "/upgrade" },
@@ -46,5 +46,6 @@ export const Routes = {
     Toasts: { path: "/components/toasts" },
     WidgetsComponent: { path: "/components/widgets" },
     //My component
-    ListUsers: {path: "/users"}
+    ListUsers: {path: "/users"},
+    EditUser: {path:"/users/:id"}
 };

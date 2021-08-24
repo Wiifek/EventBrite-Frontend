@@ -37,7 +37,7 @@ import "toastr/build/toastr.css";
 import "animate.css/animate.css";
 
 let container;
-export default container;
+
 
 ReactDOM.render(
   <HashRouter>
@@ -52,3 +52,4 @@ ReactDOM.render(
   </HashRouter>,
   document.getElementById("root")
 );
+export default container;

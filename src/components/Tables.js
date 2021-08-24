@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp, faArrowDown, faArrowUp, faEdit, faEllipsisH, faExternalLinkAlt, faEye, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Col, Row, Nav, Card, Image, Button, Table, Dropdown, ProgressBar, Pagination, ButtonGroup } from '@themesberg/react-bootstrap';
@@ -9,7 +9,6 @@ import { Routes } from "../routes";
 import { pageVisits, pageTraffic, pageRanking } from "../data/tables";
 import transactions from "../data/transactions";
 import commands from "../data/commands";
-import userServices from "../services/user.service"
 
 const ValueChange = ({ value, suffix }) => {
   const valueIcon = value < 0 ? faAngleDown : faAngleUp;
@@ -74,20 +73,38 @@ export const PageVisitsTable = () => {
 };
 
 export const PageTrafficTable = () => {
-  const [users, setUsers] = useState([]);
+  const TableRow = (props) => {
+    const { id, source, sourceIcon, sourceIconColor, sourceType, category, rank, trafficShare, change } = props;
 
-  useEffect(() => {
-    userServices.getAllUsers()
-      .then(response => {
-        setUsers(response.data);
-      }).catch(err => {
-        console.log(err)
-      });
-  })
+    return (
+      <tr>
+        <td>
+          <Card.Link href="#" className="text-primary fw-bold">{id}</Card.Link>
+        </td>
+        <td className="fw-bold">
+          <FontAwesomeIcon icon={sourceIcon} className={`icon icon-xs text-${sourceIconColor} w-30`} />
+          {source}
+        </td>
+        <td>{sourceType}</td>
+        <td>{category ? category : "--"}</td>
+        <td>{rank ? rank : "--"}</td>
+        <td>
+          <Row className="d-flex align-items-center">
+            <Col xs={12} xl={2} className="px-0">
+              <small className="fw-bold">{trafficShare}%</small>
+            </Col>
+            <Col xs={12} xl={10} className="px-0 px-xl-1">
+              <ProgressBar variant="primary" className="progress-lg mb-0" now={trafficShare} min={0} max={100} />
+            </Col>
+          </Row>
+        </td>
+        <td>
+          <ValueChange value={change} suffix="%" />
+        </td>
+      </tr>
+    );
+  };
 
-  const deleteHandler=(id)=>{
-    console.log(id)
-  }
   return (
     <Card border="light" className="shadow-sm mb-4">
       <Card.Body className="pb-0">
@@ -95,34 +112,22 @@ export const PageTrafficTable = () => {
           <thead className="thead-light">
             <tr>
               <th className="border-0">#</th>
-              <th className="border-0">First Name</th>
-              <th className="border-0">Last Name</th>
-              <th className="border-0">Role</th>
-              <th className="border-0">E-mail</th>
-              <th className="border-0">Phone</th>
-              <th className="border-0">Actions</th>
+              <th className="border-0">Traffic Source</th>
+              <th className="border-0">Source Type</th>
+              <th className="border-0">Category</th>
+              <th className="border-0">Global Rank</th>
+              <th className="border-0">Traffic Share</th>
+              <th className="border-0">Change</th>
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) =>
-              <tr>
-                <td>{index}</td>
-                <td>{user.firstName}</td>
-                <td>{user.lastName}</td>
-                <td>{user.role}</td>
-                <td>{user.email}</td>
-                <td>{user.phone}</td>
-                <td><Button variant="warning">Edit</Button>{' '}
-                  <Button onClick={deleteHandler(user._id)} variant="danger">Delete</Button>
-                </td>
-
-              </tr>)}
+            {pageTraffic.map(pt => <TableRow key={`page-traffic-${pt.id}`} {...pt} />)}
           </tbody>
         </Table>
       </Card.Body>
     </Card>
   );
-}
+};
 
 export const RankingTable = () => {
   const TableRow = (props) => {

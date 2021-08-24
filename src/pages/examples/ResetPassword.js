@@ -7,6 +7,7 @@ import { Link, useParams } from 'react-router-dom';
 import authService from "../../services/auth.service";
 
 import { Routes } from "../../routes";
+import toastrService from "../../services/toastr.service";
 
 
 export default () => {
@@ -43,8 +44,10 @@ export default () => {
     if(isValidForm()){
     authService.resetPassword({password}, token)
     .then(response => {
+      toastrService.showSuccessMessage("Password reset successfully ", `Reset password`)
       
     }).catch(err => {
+      toastrService.showErrorMessage("Password reset error!!", `Reset password`)
       console.log(err)
     });
   }

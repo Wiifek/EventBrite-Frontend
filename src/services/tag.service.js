@@ -8,10 +8,11 @@ const getAllTags = ()=>{
       });
 }
 
-const addTag = ()=>{
+const addTag = (playload)=>{
     return axios({
         method: 'post',
-        url: `${BASE_URL}/tags/addtag`
+        url: `${BASE_URL}/tags/addtag`,
+        data: playload
       });
 }
 
@@ -22,10 +23,11 @@ const getTagById = (id)=>{
       });
 }
 
-const editTag = (id)=>{
+const editTag = (id, playload)=>{
     return axios({
         method: 'put',
-        url: `${BASE_URL}/tags/edittag/${id}`
+        url: `${BASE_URL}/tags/edittag/${id}`,
+        data: playload
       });
 }
 

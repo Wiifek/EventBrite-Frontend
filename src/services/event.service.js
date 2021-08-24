@@ -8,10 +8,11 @@ const getAllEvents = ()=>{
       });
 }
 
-const addEvent = ()=>{
+const addEvent = (playload)=>{
     return axios({
         method: 'post',
-        url: `${BASE_URL}/events/addevent`
+        url: `${BASE_URL}/events/addevent`,
+        data: playload
       });
 }
 
@@ -22,10 +23,11 @@ const getEventById = (id)=>{
       });
 }
 
-const editEvent = (id)=>{
+const editEvent = (id, playload)=>{
     return axios({
         method: 'put',
-        url: `${BASE_URL}/events/editevent/${id}`
+        url: `${BASE_URL}/events/editevent/${id}`,
+        data: playload
       });
 }
 

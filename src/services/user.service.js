@@ -15,10 +15,11 @@ const getUserById = (id)=>{
       });
 }
 
-const editUser = (id)=>{
+const editUser = (id, playload)=>{
     return axios({
         method: 'put',
-        url: `${BASE_URL}/users/edituser/${id}`
+        url: `${BASE_URL}/users/edituser/${id}`,
+        data: playload
       });
 }
 

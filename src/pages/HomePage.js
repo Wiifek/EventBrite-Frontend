@@ -50,6 +50,7 @@ import Tooltips from "./components/Tooltips";
 import Toasts from "./components/Toasts";
 import ListUsers from '../components/ListUsers';
 import authService from '../services/auth.service';
+import EditUser from '../components/EditUser';
 
 const RouteWithLoader = ({ component: Component, ...rest }) => {
   const [loaded, setLoaded] = useState(false);
@@ -102,7 +103,7 @@ const RouteWithSidebar = ({ component: Component, ...rest }) => {
 
 export default () => (
   <Switch>
-    <RouteWithLoader exact path={Routes.Presentation.path} component={Presentation} />
+    {/* <RouteWithLoader exact path={Routes.Presentation.path} component={Presentation} /> */}
     <RouteWithLoader exact path={Routes.Signin.path} component={Signin} />
     <RouteWithLoader exact path={Routes.Signup.path} component={Signup} />
     <RouteWithLoader exact path={Routes.ForgotPassword.path} component={ForgotPassword} />
@@ -147,6 +148,7 @@ export default () => (
 
     {/*My Component*/}
     <RouteWithSidebar exact path={Routes.ListUsers.path} component={ListUsers} />
+    <RouteWithSidebar exact path={Routes.EditUser.path} component={EditUser} />
 
     <Redirect to={Routes.NotFound.path} />
   </Switch>

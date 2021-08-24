@@ -46,7 +46,7 @@ export default () => {
       .then(response => {
         toastrService.showSuccessMessage("Welcome to your access panel", `Sign in successful`)
         localStorage.setItem('token', response.data.token);
-        // history.push("/dashboard/overview")
+        history.push("/dashboard/overview")
       }).catch(err => {
         toastrService.showErrorMessage("You have entered an invalid username or password", `Sign in failed`)
         console.log(err)

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Card, Table } from "@themesberg/react-bootstrap"
 import { Button } from '@themesberg/react-bootstrap';
 import userService from "../services/user.service";
+import showDeleteConfirmation from "../services/sweetAlert.service";
+import { Link } from "react-router-dom";
 
 
 export default (props) => {
@@ -9,7 +11,7 @@ export default (props) => {
 
     useEffect(() => {
         refreshList();
-    },[])
+    }, [])
 
     const refreshList = () => {
         userService.getAllUsers()
@@ -21,12 +23,19 @@ export default (props) => {
     }
 
     const deleteHandler = (id) => {
-        userService.deleteUserById(id)
-        .then(response => {
-            refreshList();
-        }).catch(err => {
-            console.log(err)
-        });
+        showDeleteConfirmation("user")
+            .then((result) => {
+                if (result.isConfirmed) {
+                    userService.deleteUserById(id)
+                        .then(response => {
+                            refreshList();
+                        }).catch(err => {
+                            console.log(err)
+                        })
+                }
+            }).catch(err => {
+                console.log(err)
+            });
     }
     return (
         <Card border="light" className="shadow-sm mb-4">
@@ -45,15 +54,15 @@ export default (props) => {
                     </thead>
                     <tbody>
                         {users.map((user, index) =>
-                            <tr>
+                            <tr key={index}>
                                 <td>{index}</td>
                                 <td>{user.firstName}</td>
                                 <td>{user.lastName}</td>
                                 <td>{user.role}</td>
                                 <td>{user.email}</td>
                                 <td>{user.phone}</td>
-                                <td><Button variant="warning">Edit</Button>{' '}
-                                    <Button onClick={deleteHandler(user._id)} variant="danger">Delete</Button>
+                                <td><Button as={Link} to={`/users/${user._id}`} variant="warning">Edit</Button>{' '}
+                                    <Button onClick={()=>deleteHandler(user._id)} variant="danger">Delete</Button>
                                 </td>
 
                             </tr>)}
